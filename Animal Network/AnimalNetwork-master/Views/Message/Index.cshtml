@@ -1,0 +1,18 @@
+﻿@model List<dynamic>
+
+@{
+    ViewData["Title"] = "Messages";
+}
+
+<h2>All Conversations</h2>
+<ul class="list-group">
+    @foreach (var m in Model)
+    {
+        <li class="list-group-item">
+            <strong>@m.User.Username</strong> (@m.LatestMessage.SentAt.ToShortTimeString()):
+            @m.LatestMessage.Content
+        </li>
+    }
+</ul>
+
+<a asp-action="Index" class="btn btn-primary mt-3">Go to Chat</a>

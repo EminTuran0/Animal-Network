@@ -1,0 +1,30 @@
+﻿@model List<AnimalNetwork.Models.Entities.Event>
+
+@{
+    ViewData["Title"] = "Events";
+}
+
+<h2>All Events</h2>
+<a asp-action="Create" class="btn btn-primary mb-3">Create New Event</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Date</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var e in Model)
+        {
+            <tr>
+                <td>@e.Title</td>
+                <td>@e.StartTime.ToShortDateString()</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@e.Id">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,30 @@
+﻿@model List<AnimalNetwork.Models.Entities.Post>
+
+@{
+    ViewData["Title"] = "Posts";
+}
+
+<h2>All Posts</h2>
+<a asp-action="Create" class="btn btn-primary mb-3">Create New Post</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Date</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var p in Model)
+        {
+            <tr>
+                <td>@p.User.Username</td>
+                <td>@p.CreatedAt.ToShortDateString()</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@p.Id">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

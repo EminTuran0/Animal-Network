@@ -1,0 +1,10 @@
+﻿@model AnimalNetwork.Models.Entities.Event
+
+@{
+    ViewData["Title"] = "Event Details";
+}
+
+<h2>@Model.Title</h2>
+<p><strong>Date:</strong> @Model.StartTime.ToString("MMMM dd, yyyy")</p>
+
+<a asp-action="Index" class="btn btn-secondary mt-3">Back to Events</a>

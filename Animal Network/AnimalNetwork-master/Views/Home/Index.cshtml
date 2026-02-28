@@ -1,0 +1,218 @@
+﻿
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="row">
+    <!-- Welcome Section -->
+    <div class="col-md-12 mb-4">
+        <div class="card bg-primary text-white">
+            <div class="card-body text-center py-5">
+                <h1 class="display-4"><i class="fas fa-paw"></i> Welcome to Animal Network</h1>
+                <p class="lead">Connect with pet lovers, share your furry friends' adventures, and discover amazing animals from around the world.</p>
+                @if (!User.Identity.IsAuthenticated)
+                {
+                    <div class="mt-4">
+                        <a asp-controller="Account" asp-action="Register" class="btn btn-light btn-lg me-2">
+                            <i class="fas fa-user-plus"></i> Join Now
+                        </a>
+                        <a asp-controller="Account" asp-action="Login" class="btn btn-outline-light btn-lg">
+                            <i class="fas fa-sign-in-alt"></i> Sign In
+                        </a>
+                    </div>
+                }
+                else
+                {
+                    <div class="mt-4">
+                        <a asp-controller="Post" asp-action="Feed" class="btn btn-light btn-lg me-2">
+                            <i class="fas fa-stream"></i> Go to Feed
+                        </a>
+                        <a asp-controller="Animal" asp-action="Create" class="btn btn-outline-light btn-lg">
+                            <i class="fas fa-plus"></i> Add Your Pet
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Section -->
+    <div class="col-md-8">
+        <!-- Popular Posts Section -->
+        <div class="card mb-4">
+            <div class="card-header bg-white">
+                <h5 class="mb-0"><i class="fas fa-fire text-primary"></i> Popular Posts</h5>
+            </div>
+            <div class="card-body p-0">
+                @if (ViewBag.PopularPosts != null && ViewBag.PopularPosts.Count > 0)
+                {
+                    <div class="list-group list-group-flush">
+                        @foreach (var post in ViewBag.PopularPosts)
+                        {
+                            <div class="list-group-item">
+                                <div class="d-flex">
+                                    <div class="me-3">
+                                        @if (!string.IsNullOrEmpty(post.User.ProfileImage))
+                                        {
+                                            <img src="@post.User.ProfileImage" class="rounded-circle" width="50" height="50" alt="@post.User.Username">
+                                        }
+                                        else
+                                        {
+                                            <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                                <i class="fas fa-user"></i>
+                                            </div>
+                                        }
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <div>
+                                                <a asp-controller="Profile" asp-action="Details" asp-route-id="@post.User.Id" class="fw-bold text-decoration-none">
+                                                    @post.User.Username
+                                                </a>
+                                                @if (post.Animal != null)
+                                                {
+                                                    <span class="text-muted">with</span>
+                                                    <a asp-controller="Animal" asp-action="Details" asp-route-id="@post.Animal.Id" class="fw-bold text-decoration-none">
+                                                        @post.Animal.Name
+                                                    </a>
+                                                }
+                                            </div>
+                                            <small class="text-muted">@post.CreatedAt.ToString("MMM d, yyyy")</small>
+                                        </div>
+                                        <p>@post.Content</p>
+                                        @if (!string.IsNullOrEmpty(post.ImageUrl))
+                                        {
+                                            <img src="@post.ImageUrl" class="img-fluid rounded mb-2" alt="Post image">
+                                        }
+                                        <div class="d-flex align-items-center small text-muted">
+                                            <div class="me-3">
+                                                <i class="fas fa-heart text-danger"></i> @post.Likes.Count
+                                            </div>
+                                            <div>
+                                                <i class="fas fa-comment text-primary"></i> @post.Comments.Count
+                                            </div>
+                                            <div class="ms-auto">
+                                                <a asp-controller="Post" asp-action="Details" asp-route-id="@post.Id" class="btn btn-sm btn-outline-primary">
+                                                    View Post <i class="fas fa-arrow-right"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="card-footer bg-white text-center">
+                        <a asp-controller="Post" asp-action="Index" class="btn btn-outline-primary">
+                            View More Posts <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                }
+                else
+                {
+                    <div class="p-4 text-center">
+                        <p class="text-muted mb-0">No posts to display yet. Be the first to share!</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar Section -->
+    <div class="col-md-4">
+        <!-- Popular Animals Section -->
+        <div class="card mb-4">
+            <div class="card-header bg-white">
+                <h5 class="mb-0"><i class="fas fa-paw text-primary"></i> Popular Animals</h5>
+            </div>
+            <div class="card-body p-0">
+                @if (ViewBag.PopularAnimals != null && ViewBag.PopularAnimals.Count > 0)
+                {
+                    <div class="list-group list-group-flush">
+                        @foreach (var animal in ViewBag.PopularAnimals)
+                        {
+                            <a asp-controller="Animal" asp-action="Details" asp-route-id="@animal.Id" class="list-group-item list-group-item-action">
+                                <div class="d-flex align-items-center">
+                                    <div class="me-3">
+                                        @if (!string.IsNullOrEmpty(animal.ProfileImage))
+                                        {
+                                            <img src="@animal.ProfileImage" class="rounded-circle" width="50" height="50" alt="@animal.Name">
+                                        }
+                                        else
+                                        {
+                                            <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                                <i class="fas fa-paw"></i>
+                                            </div>
+                                        }
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0">@animal.Name</h6>
+                                        <small class="text-muted">@animal.Breed.AnimalType.Name - @animal.Breed.Name</small>
+                                    </div>
+                                    <div class="ms-auto small">
+                                        <i class="fas fa-heart text-danger"></i> @animal.Followers.Count
+                                    </div>
+                                </div>
+                            </a>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="p-4 text-center">
+                        <p class="text-muted mb-0">No animals to display yet.</p>
+                    </div>
+                }
+            </div>
+            <div class="card-footer bg-white text-center">
+                <a asp-controller="Animal" asp-action="Index" class="btn btn-outline-primary">
+                    View All Animals <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Upcoming Events Section -->
+        <div class="card mb-4">
+            <div class="card-header bg-white">
+                <h5 class="mb-0"><i class="fas fa-calendar-alt text-primary"></i> Upcoming Events</h5>
+            </div>
+            <div class="card-body p-0">
+                @if (ViewBag.UpcomingEvents != null && ViewBag.UpcomingEvents.Count > 0)
+                {
+                    <div class="list-group list-group-flush">
+                        @foreach (var e in ViewBag.UpcomingEvents)
+                        {
+                            <a asp-controller="Event" asp-action="Details" asp-route-id="@e.Id" class="list-group-item list-group-item-action">
+                                <div class="d-flex align-items-center">
+                                    <div class="me-3 text-center">
+                                        <div class="border rounded p-2">
+                                            <div class="small text-uppercase fw-bold text-danger">@e.StartTime.ToString("MMM")</div>
+                                            <div class="fw-bold">@e.StartTime.Day</div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0">@e.Title</h6>
+                                        <small class="text-muted">
+                                            <i class="fas fa-map-marker-alt"></i> @(e.Location != null ? $"{e.Location.City}, {e.Location.Country}" : "Location TBD")
+                                        </small>
+                                    </div>
+                                </div>
+                            </a>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="p-4 text-center">
+                        <p class="text-muted mb-0">No upcoming events at the moment.</p>
+                    </div>
+                }
+            </div>
+            <div class="card-footer bg-white text-center">
+                <a asp-controller="Event" asp-action="Index" class="btn btn-outline-primary">
+                    View All Events <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

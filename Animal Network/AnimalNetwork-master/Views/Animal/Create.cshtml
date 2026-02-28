@@ -1,0 +1,25 @@
+﻿@model AnimalNetwork.Models.Entities.Animal
+
+@{
+    ViewData["Title"] = "Create Animal";
+}
+
+<h2>Create New Animal</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Description"></label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+    </div>
+    <div class="form-group">
+        <label asp-for="BreedId">Breed</label>
+        <select asp-for="BreedId" asp-items="ViewBag.Breeds" class="form-control">
+            <option value="">-- Select Breed --</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-success mt-2">Save</button>
+</form>

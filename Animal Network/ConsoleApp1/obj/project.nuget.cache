@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "+rLQMTtn81g=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\turan\\OneDrive\\Desktop\\Animal Network\\ConsoleApp1\\ConsoleApp1.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\turan\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

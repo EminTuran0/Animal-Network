@@ -1,0 +1,11 @@
+﻿@model AnimalNetwork.Models.Entities.Animal
+
+@{
+    ViewData["Title"] = "Animal Details";
+}
+
+<h2>@Model.Name</h2>
+<div><strong>Description:</strong> @Model.Description</div>
+<div><strong>Breed:</strong> @(Model.Breed?.Name ?? "—")</div>
+
+<a asp-action="Index" class="btn btn-secondary mt-3">Back to List</a>

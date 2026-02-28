@@ -1,0 +1,11 @@
+﻿@model AnimalNetwork.Models.Entities.Post
+
+@{
+    ViewData["Title"] = "Post Details";
+}
+
+<h2>@Model.User.Username</h2>
+<p>@Model.Content</p>
+<p class="text-muted">Posted on @Model.CreatedAt.ToString("MMMM dd, yyyy")</p>
+
+<a asp-action="Index" class="btn btn-secondary mt-3">Back to Posts</a>

@@ -1,0 +1,11 @@
+﻿@model AnimalNetwork.Models.Entities.User
+
+@{
+    ViewData["Title"] = "Profile Details";
+}
+
+<h2>@Model.Username</h2>
+<p><strong>Email:</strong> @Model.Email</p>
+<p><strong>Bio:</strong> @Model.Bio</p>
+
+<a asp-action="Edit" class="btn btn-primary mt-3">Edit Profile</a>

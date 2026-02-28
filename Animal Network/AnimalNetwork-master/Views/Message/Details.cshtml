@@ -1,0 +1,14 @@
+﻿@model AnimalNetwork.Models.Entities.Message
+
+@{
+    ViewData["Title"] = "Message Details";
+}
+
+<h2>Message Details</h2>
+
+<p><strong>Sender:</strong> @Model.SenderId</p>
+<p><strong>Receiver:</strong> @Model.ReceiverId</p>
+<p><strong>Content:</strong> @Model.Content</p>
+<p><strong>Sent at:</strong> @Model.SentAt.ToString("g")</p>
+
+<a asp-action="Index" class="btn btn-secondary">Back to Inbox</a>

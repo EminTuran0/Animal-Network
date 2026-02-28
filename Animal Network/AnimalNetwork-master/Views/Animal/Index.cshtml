@@ -1,0 +1,33 @@
+﻿@model List<AnimalNetwork.Models.Entities.Animal>
+
+@{
+    ViewData["Title"] = "Animals";
+}
+
+<h2>Animals</h2>
+<a asp-action="Create" class="btn btn-primary mb-3">Add New Animal</a>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Breed</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var a in Model)
+        {
+            <tr>
+                <td>@a.Name</td>
+                <td>@a.Description</td>
+                <td>@(a.Breed?.Name ?? "—")</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@a.Id">Details</a> |
+                    <a asp-action="Edit" asp-route-id="@a.Id">Edit</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
