@@ -1,5 +1,6 @@
 ﻿using AnimalNetwork.Models.Entities;
 using AnimalNetwork.Models.ViewModels;
+using BCrypt.Net;
 using Dapper;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -44,10 +45,7 @@ namespace AnimalNetwork.Controllers
                     string sql = "SELECT * FROM Users WHERE Email = @Email";
                     var user = await db.QueryFirstOrDefaultAsync<User>(sql, new { Email = model.Email });
 
-                    if (user != null && (
-                        BCrypt.Net.BCrypt.Verify(model.Password, user.PasswordHash) ||
-                        model.Password == user.PasswordHash
-                    ))
+                    if (user != null && VerifyPassword(model.Password, user.PasswordHash))
                     {
                         await SignInUser(user);
 
@@ -137,6 +135,27 @@ namespace AnimalNetwork.Controllers
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Index", "Home");
+        }
+
+        private bool VerifyPassword(string password, string storedHash)
+        {
+            // Only a real BCrypt hash may authenticate. A stored value that is not a hash
+            // must never be accepted as a password.
+            if (string.IsNullOrEmpty(storedHash) || !storedHash.StartsWith("$2"))
+            {
+                _logger.LogWarning("Login attempt against an account whose password is not BCrypt-hashed.");
+                return false;
+            }
+
+            try
+            {
+                return BCrypt.Net.BCrypt.Verify(password, storedHash);
+            }
+            catch (SaltParseException ex)
+            {
+                _logger.LogWarning(ex, "Stored password hash could not be parsed.");
+                return false;
+            }
         }
 
         private async Task SignInUser(User user)
